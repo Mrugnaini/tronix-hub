@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tronix Hub – Headphones, Bluetooth Speakers & Hard Disks</title>
+  <meta name="description" content="Tronix Hub sells headphones, Bluetooth speakers and hard disks at fair prices with a 1-year warranty.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a class="logo" href="#top">Tronix<b>Hub</b></a>
+    <nav>
+      <a class="hide" href="#shop">Shop</a>
+      <a class="hide" href="#why">Why us</a>
+      <a class="hide" href="#contact">Contact</a>
+      <span class="cart">Cart: <span id="count">0</span></span>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div>
+        <h1>Sound, storage and speed. Sorted.</h1>
+        <p>Headphones, Bluetooth speakers and hard disks from trusted brands, at honest prices with a 1-year warranty.</p>
+        <a class="btn" href="#shop">Shop now</a>
+      </div>
+      <div class="big">🎧</div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="perks">
+      <div class="perk">1-year warranty<span>On every product</span></div>
+      <div class="perk">Free delivery<span>On orders above ₹999</span></div>
+      <div class="perk">7-day returns<span>No questions asked</span></div>
+      <div class="perk">Secure payments<span>UPI, cards and COD</span></div>
+    </div>
+
+    <!-- Products -->
+    <section id="shop">
+      <h2>Shop by category</h2>
+      <div class="chips">
+        <button class="chip" data-f="all" aria-pressed="true">All</button>
+        <button class="chip" data-f="Headphones" aria-pressed="false">Headphones</button>
+        <button class="chip" data-f="Bluetooth" aria-pressed="false">Bluetooth speakers</button>
+        <button class="chip" data-f="Hard disks" aria-pressed="false">Hard disks</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <!-- About -->
+    <section id="why">
+      <h2>Why shop with Tronix Hub</h2>
+      <div class="about">
+        <div><h3>Genuine products</h3><p>We buy directly from brands and give you a proper GST bill.</p></div>
+        <div><h3>Help before you buy</h3><p>Not sure which hard disk or headphone fits you? Ask us and we will guide you.</p></div>
+        <div><h3>Easy support</h3><p>Warranty claims and returns are handled in one place, by real people.</p></div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <h2>Contact us</h2>
+      <form id="f">
+        <label>Your name<input id="n" required></label>
+        <label>Email<input id="e" type="email" required></label>
+        <label>Message<textarea id="m" rows="4" required></textarea></label>
+        <button class="btn" type="button" id="send">Send message</button>
+        <div id="out"></div>
+      </form>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>© 2026 Tronix Hub. A student project for Organisational Behaviour.</div>
+  </footer>
+
+</div>
+
+<script>
+  // Product list: category, icon, name, description, price
+  var items = [
+    ["Headphones", "🎧", "BassBoost Wireless", "40-hour battery, deep bass, soft ear cushions.", 1799],
+    ["Headphones", "🎧", "Studio Pro Wired", "Clear sound for music, calls and online classes.", 999],
+    ["Headphones", "🎧", "ANC Over-Ear", "Active noise cancelling for travel and study.", 3499],
+    ["Bluetooth", "🔊", "Pocket Speaker Mini", "Small, waterproof, 12 hours of play.", 1299],
+    ["Bluetooth", "🔊", "Party Box 40W", "Loud room-filling sound with colour lights.", 3999],
+    ["Bluetooth", "🔊", "Soundbar Lite", "Bluetooth soundbar for TV and phone.", 2799],
+    ["Hard disks", "💾", "Portable HDD 1 TB", "USB 3.0, works with laptop and TV.", 3699],
+    ["Hard disks", "💾", "Portable HDD 2 TB", "Plenty of space for photos and projects.", 5299],
+    ["Hard disks", "💾", "SSD 500 GB", "Very fast and shock resistant.", 4199]
+  ];
+
+  var grid = document.getElementById("grid");
+  var count = 0;
+  var countEl = document.getElementById("count");
+
+  // Show products (filtered by category)
+  function show(filter) {
+    grid.innerHTML = "";
+    items.forEach(function (p) {
+      if (filter !== "all" && p[0] !== filter) return;
+      var card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML =
+        '<div class="thumb">' + p[1] + '</div>' +
+        '<span class="tag">' + p[0] + '</span>' +
+        '<h3>' + p[2] + '</h3>' +
+        '<p>' + p[3] + '</p>' +
+        '<div class="row"><span class="price">₹' + p[4].toLocaleString("en-IN") + '</span>' +
+        '<button class="add">Add to cart</button></div>';
+      card.querySelector(".add").onclick = function () {
+        count++;
+        countEl.textContent = count;
+      };
+      grid.appendChild(card);
+    });
+  }
+
+  // Category buttons
+  var chips = document.querySelectorAll(".chip");
+  chips.forEach(function (chip) {
+    chip.onclick = function () {
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", c === chip); });
+      show(chip.dataset.f);
+    };
+  });
+  show("all");
+
+  // Contact form (demo)
+  document.getElementById("send").onclick = function () {
+    var name = document.getElementById("n").value.trim();
+    var email = document.getElementById("e").value.trim();
+    var msg = document.getElementById("m").value.trim();
+    var out = document.getElementById("out");
+    if (!name || !/^\S+@\S+\.\S+$/.test(email) || !msg) {
+      out.textContent = "Please enter your name, a valid email and a message.";
+      return;
+    }
+    out.textContent = "Thank you, " + name + ". We will reply soon.";
+    document.getElementById("f").reset();
+  };
+</script>
+</body>
+</html>

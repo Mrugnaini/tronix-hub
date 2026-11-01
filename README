@@ -1,0 +1,16 @@
+# Tronix Hub
+
+A website for an electronics business selling headphones, Bluetooth speakers and hard disks.
+
+## Features
+- Product categories with filter buttons
+- Cart counter
+- Contact form
+- Works on mobile and desktop
+- Automatic dark mode
+
+## Built with
+HTML, CSS and JavaScript
+
+## Live website
+https://Mrugnaini.github.io/tronix-hub
